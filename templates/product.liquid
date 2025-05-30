@@ -1,0 +1,20 @@
+{% section 'product-template' %}
+<div class="product">
+  <h1>{{ product.title }}</h1>
+  <div class="product-images">
+    {% for image in product.images %}
+      <img src="{{ image | img_url: 'medium' }}" alt="{{ image.alt | escape }}">
+    {% endfor %}
+  </div>
+  <div class="product-description">
+    {{ product.description }}
+  </div>
+  {% form 'product', product %}
+    <select name="id">
+      {% for variant in product.variants %}
+        <option value="{{ variant.id }}">{{ variant.title }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Add to Cart</button>
+  {% endform %}
+</div>
