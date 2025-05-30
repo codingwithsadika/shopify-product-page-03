@@ -1,0 +1,25 @@
+
+
+<div class="popup popup-v8 popup-open" id="popup">
+<!--   <div class="overlay_newletter"></div> -->
+  <div class="popup-container" style="background-image: url('{{'popup_image.jpg' | asset_url}}');">
+    {% if settings.newsletter_form_action != blank %}
+    {% assign form_action = settings.newsletter_form_action %}
+    {% else %}
+    {% assign form_action = '//myshopify.us12.list-manage.com/subscribe/post?u=9ade7b39da179308b891bd263&amp;id=e9dbec7f92' %}
+    {% endif %}
+    <form action="{{ form_action }}" method="post" class="popup-form">
+     
+      <h2>{{settings.popup_newletter_title}}</h2>
+      <p>{{settings.popup_newletter_des}}</p>
+      <div class="input-group">
+        <input type="text" value="Your name" placeholder="Your name">
+        <input name="Your Email Address" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{settings.popup_newletter_input_title}}" required="">
+        <button type="submit" class="button--common button--main button--hover-dark-main">{{settings.popup_newletter_button_title}} <i class="fa fa-long-arrow-right"></i></button>
+      </div>
+      <a class="popup-close  mfp-close" href="javascript:void(0)"></a>
+    </form>
+    
+  </div>
+<!--   <div class="mask popup-close mfp-close"></div> -->
+</div>

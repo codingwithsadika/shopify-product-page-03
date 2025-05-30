@@ -1,0 +1,70 @@
+
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+{% assign sold_out = false %}
+{% endif %}	
+<div class="noo-product-inner">
+  <h3><a href="{{product.url}}">{{product.title}}</a></h3>
+  
+  <span class="posted_in"><a href="#">{{product.vendor}}</a></span>
+  {%if  on_sale%}
+  <span class="onsale">Sale!</span>
+  {%endif%}
+  <div class="noo-product-thumbnail">
+    <div class="noo-product-meta">
+      
+      <div class="wishlist-button">
+        {%include 'add-wishlist'%}
+      </div>
+      <div class="noo-quick-view">
+        <a href="javascript:void(0)"  data-id="{{ product.handle }}" class="zoom quick-view engoj-btn-quickview" title="{{ settings.product_quickview_name }}"></a>
+      </div>
+    </div>
+    <div class="noo-product-slider">
+      
+       {% for image in product.images %}
+      
+      <a href="{{product.url}}">
+        <img src="{{ image.src | product_img_url: '360x' }}" alt="" /> 
+      </a>
+    
+      {% endfor %}
+    </div>
+  </div>
+  <div class="price">
+    
+    {% capture price %}{{ product.price | money }}{% endcapture %}
+    {% if on_sale %}
+    <del>{{ product.compare_at_price | money }}</del> 
+    {% endif %}
+    {% if product.price_varies %}
+    <ins>{{ 'products.general.from_text_html' | t: price: price }}</ins>
+    {% else %}
+    <ins>{{ price }}</ins>
+    {% endif %}
+  </div>
+  <div class="noo-loop-cart">
+    
+    
+    {% if product.variants.size > 1 %}
+            
+               <a href="{{ product.url | within: collection }}" id="AddToCart{{ product.id }}"  class="button add-to-cart" title="{{settings.product_select_option_name }}"></a>
+          {% else %}
+              
+            <form method="post" action="/cart/add">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+              <button type="submit" name="add" id="AddToCart{{ product.id }}" class="button add-to-cart add-to-cart-button enj-add-to-cart-btn" title="{{ settings.product_cart_name }}">
+
+              </button>
+            </form>
+          {% endif %}
+  </div>
+</div>
+
+
